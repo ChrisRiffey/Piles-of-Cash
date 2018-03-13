@@ -533,7 +533,7 @@ public class OVRLint : EditorWindow
 
 	static void CheckStaticAndroidIssues()
 	{
-		AndroidSdkVersions recommendedAndroidSdkVersion = AndroidSdkVersions.AndroidApiLevel21;
+		AndroidSdkVersions recommendedAndroidSdkVersion = AndroidSdkVersions.AndroidApiLevel19;
 		if ((int)PlayerSettings.Android.minSdkVersion < (int)recommendedAndroidSdkVersion)
 		{
 			AddFix("Optimize Android API Level", "To avoid legacy workarounds, please require at least API level " + (int)recommendedAndroidSdkVersion, delegate (UnityEngine.Object obj, bool last, int selected)

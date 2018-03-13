@@ -70,8 +70,6 @@ public class OVRDisplay
 
 	private bool needsConfigureTexture;
 	private EyeRenderDesc[] eyeDescs = new EyeRenderDesc[2];
-	private bool recenterRequested = false;
-	private int recenterRequestedFrameCount = int.MaxValue;
 
 	/// <summary>
 	/// Creates an instance of OVRDisplay. Called by OVRManager.
@@ -87,16 +85,6 @@ public class OVRDisplay
 	public void Update()
 	{
 		UpdateTextures();
-
-		if (recenterRequested && Time.frameCount > recenterRequestedFrameCount)
-		{
-			if (RecenteredPose != null)
-			{
-				RecenteredPose();
-			}
-			recenterRequested = false;
-			recenterRequestedFrameCount = int.MaxValue;
-		}
 	}
 
 	/// <summary>
@@ -114,14 +102,10 @@ public class OVRDisplay
 #else
 		UnityEngine.VR.InputTracking.Recenter();
 #endif
-
-		// The current poses are cached for the current frame and won't be updated immediately 
-		// after UnityEngine.VR.InputTracking.Recenter(). So we need to wait until next frame 
-		// to trigger the RecenteredPose delegate. The application could expect the correct pose 
-		// when the RecenteredPose delegate get called.
-		recenterRequested = true;
-		recenterRequestedFrameCount = Time.frameCount;
-
+		if (RecenteredPose != null)
+		{
+			RecenteredPose();
+		}
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		OVRMixedReality.RecenterPose();
 #endif
