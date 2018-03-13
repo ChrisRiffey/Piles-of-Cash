@@ -27,7 +27,7 @@ using UnityEngine;
 
 internal static class OVRPlugin
 {
-	public static readonly System.Version wrapperVersion = OVRP_1_24_0.version;
+	public static readonly System.Version wrapperVersion = OVRP_1_23_0.version;
 
 	private static System.Version _version;
 	public static System.Version version
@@ -242,7 +242,7 @@ internal static class OVRPlugin
 	{
 		None = -1,
 		ConfirmQuit = 1,
-		GlobalMenuTutorial, // Deprecated
+		GlobalMenuTutorial,
 	}
 
 	public enum SystemRegion
@@ -967,7 +967,7 @@ internal static class OVRPlugin
 					return inputFocus == Bool.True;
 				else
 				{
-					//Debug.LogWarning("ovrp_GetAppHasInputFocus return " + result);
+					Debug.LogWarning("ovrp_GetAppHasInputFocus return " + result);
 					return false;
 				}
 			}
@@ -1456,7 +1456,7 @@ internal static class OVRPlugin
 			}
 			else
 			{
-				//Debug.LogWarning("ovrp_SetHandNodePoseStateLatency return " + result);
+				Debug.LogWarning("ovrp_SetHandNodePoseStateLatency return " + result);
 				return false;
 			}
 		}
@@ -1522,9 +1522,7 @@ internal static class OVRPlugin
 		{
 			Result result = OVRP_1_15_0.ovrp_InitializeMixedReality();
 			if (result != Result.Success)
-			{
-				//Debug.LogWarning("ovrp_InitializeMixedReality return " + result);
-			}
+				Debug.LogWarning("ovrp_InitializeMixedReality return " + result);
 			return result == Result.Success;
 		}
 		else
@@ -1539,9 +1537,7 @@ internal static class OVRPlugin
 		{
 			Result result = OVRP_1_15_0.ovrp_ShutdownMixedReality();
 			if (result != Result.Success)
-			{
-				//Debug.LogWarning("ovrp_ShutdownMixedReality return " + result);
-			}
+				Debug.LogWarning("ovrp_ShutdownMixedReality return " + result);
 			return result == Result.Success;
 		}
 		else
@@ -1570,7 +1566,7 @@ internal static class OVRPlugin
 			Result result = OVRP_1_15_0.ovrp_GetExternalCameraCount(out cameraCount);
 			if (result != OVRPlugin.Result.Success)
 			{
-				//Debug.LogWarning("ovrp_GetExternalCameraCount return " + result);
+				Debug.LogWarning("ovrp_GetExternalCameraCount return " + result);
 				return 0;
 			}
 
@@ -1588,9 +1584,7 @@ internal static class OVRPlugin
 		{
 			Result result = OVRP_1_15_0.ovrp_UpdateExternalCamera();
 			if (result != Result.Success)
-			{
-				//Debug.LogWarning("ovrp_UpdateExternalCamera return " + result);
-			}
+				Debug.LogWarning("ovrp_UpdateExternalCamera return " + result);
 			return result == Result.Success;
 		}
 		else
@@ -1612,14 +1606,14 @@ internal static class OVRPlugin
 			if (result != Result.Success)
 			{
 				retValue = false;
-				//Debug.LogWarning("ovrp_GetExternalCameraExtrinsics return " + result);
+				Debug.LogWarning("ovrp_GetExternalCameraExtrinsics return " + result);
 			}
 
 			result = OVRP_1_15_0.ovrp_GetExternalCameraIntrinsics(cameraId, out cameraIntrinsics);
 			if (result != Result.Success)
 			{
 				retValue = false;
-				//Debug.LogWarning("ovrp_GetExternalCameraIntrinsics return " + result);
+				Debug.LogWarning("ovrp_GetExternalCameraIntrinsics return " + result);
 			}
 			return retValue;
 		}
@@ -1726,9 +1720,7 @@ internal static class OVRPlugin
 		{
 			Result result = OVRP_1_16_0.ovrp_UpdateCameraDevices();
 			if (result != Result.Success)
-			{
-				//Debug.LogWarning("ovrp_UpdateCameraDevices return " + result);
-			}
+				Debug.LogWarning("ovrp_UpdateCameraDevices return " + result);
 			return result == Result.Success;
 		}
 		else
@@ -1759,9 +1751,7 @@ internal static class OVRPlugin
 			size.h = height;
 			Result result = OVRP_1_16_0.ovrp_SetCameraDevicePreferredColorFrameSize(cameraDevice, size);
 			if (result != Result.Success)
-			{
-				//Debug.LogWarning("ovrp_SetCameraDevicePreferredColorFrameSize return " + result);
-			}
+				Debug.LogWarning("ovrp_SetCameraDevicePreferredColorFrameSize return " + result);
 			return result == Result.Success;
 		}
 		else
@@ -1776,9 +1766,7 @@ internal static class OVRPlugin
 		{
 			Result result = OVRP_1_16_0.ovrp_OpenCameraDevice(cameraDevice);
 			if (result != Result.Success)
-			{
-				//Debug.LogWarning("ovrp_OpenCameraDevice return " + result);
-			}
+				Debug.LogWarning("ovrp_OpenCameraDevice return " + result);
 			return result == Result.Success;
 		}
 		else
@@ -1793,9 +1781,7 @@ internal static class OVRPlugin
 		{
 			Result result = OVRP_1_16_0.ovrp_CloseCameraDevice(cameraDevice);
 			if (result != Result.Success)
-			{
-				//Debug.LogWarning("ovrp_OpenCameraDevice return " + result);
-			}
+				Debug.LogWarning("ovrp_OpenCameraDevice return " + result);
 			return result == Result.Success;
 		}
 		else
@@ -1839,7 +1825,7 @@ internal static class OVRPlugin
 			Result result = OVRP_1_16_0.ovrp_GetCameraDeviceColorFrameSize(cameraDevice, out size);
 			if (result != Result.Success)
 			{
-				//Debug.LogWarning("ovrp_GetCameraDeviceColorFrameSize return " + result);
+				Debug.LogWarning("ovrp_GetCameraDeviceColorFrameSize return " + result);
 				return null;
 			}
 			IntPtr pixels;
@@ -1847,12 +1833,12 @@ internal static class OVRPlugin
 			result = OVRP_1_16_0.ovrp_GetCameraDeviceColorFrameBgraPixels(cameraDevice, out pixels, out rowPitch);
 			if (result != Result.Success)
 			{
-				//Debug.LogWarning("ovrp_GetCameraDeviceColorFrameBgraPixels return " + result);
+				Debug.LogWarning("ovrp_GetCameraDeviceColorFrameBgraPixels return " + result);
 				return null;
 			}
 			if (rowPitch != size.w * 4)
 			{
-				//Debug.LogWarning(string.Format("RowPitch mismatch, expected {0}, get {1}", size.w * 4, rowPitch));
+				Debug.LogWarning(string.Format("RowPitch mismatch, expected {0}, get {1}", size.w * 4, rowPitch));
 				return null;
 			}
 			if (!cachedCameraFrameTexture || cachedCameraFrameTexture.width != size.w || cachedCameraFrameTexture.height != size.h)
@@ -1932,7 +1918,7 @@ internal static class OVRPlugin
 			Result result = OVRP_1_17_0.ovrp_GetCameraDeviceDepthFrameSize(cameraDevice, out size);
 			if (result != Result.Success)
 			{
-				//Debug.LogWarning("ovrp_GetCameraDeviceDepthFrameSize return " + result);
+				Debug.LogWarning("ovrp_GetCameraDeviceDepthFrameSize return " + result);
 				return null;
 			}
 			IntPtr depthData;
@@ -1940,12 +1926,12 @@ internal static class OVRPlugin
 			result = OVRP_1_17_0.ovrp_GetCameraDeviceDepthFramePixels(cameraDevice, out depthData, out rowPitch);
 			if (result != Result.Success)
 			{
-				//Debug.LogWarning("ovrp_GetCameraDeviceDepthFramePixels return " + result);
+				Debug.LogWarning("ovrp_GetCameraDeviceDepthFramePixels return " + result);
 				return null;
 			}
 			if (rowPitch != size.w * 4)
 			{
-				//Debug.LogWarning(string.Format("RowPitch mismatch, expected {0}, get {1}", size.w * 4, rowPitch));
+				Debug.LogWarning(string.Format("RowPitch mismatch, expected {0}, get {1}", size.w * 4, rowPitch));
 				return null;
 			}
 			if (!cachedCameraDepthTexture || cachedCameraDepthTexture.width != size.w || cachedCameraDepthTexture.height != size.h)
@@ -1972,7 +1958,7 @@ internal static class OVRPlugin
 			Result result = OVRP_1_17_0.ovrp_GetCameraDeviceDepthFrameSize(cameraDevice, out size);
 			if (result != Result.Success)
 			{
-				//Debug.LogWarning("ovrp_GetCameraDeviceDepthFrameSize return " + result);
+				Debug.LogWarning("ovrp_GetCameraDeviceDepthFrameSize return " + result);
 				return null;
 			}
 			IntPtr confidenceData;
@@ -1980,12 +1966,12 @@ internal static class OVRPlugin
 			result = OVRP_1_17_0.ovrp_GetCameraDeviceDepthConfidencePixels(cameraDevice, out confidenceData, out rowPitch);
 			if (result != Result.Success)
 			{
-				//Debug.LogWarning("ovrp_GetCameraDeviceDepthConfidencePixels return " + result);
+				Debug.LogWarning("ovrp_GetCameraDeviceDepthConfidencePixels return " + result);
 				return null;
 			}
 			if (rowPitch != size.w * 4)
 			{
-				//Debug.LogWarning(string.Format("RowPitch mismatch, expected {0}, get {1}", size.w * 4, rowPitch));
+				Debug.LogWarning(string.Format("RowPitch mismatch, expected {0}, get {1}", size.w * 4, rowPitch));
 				return null;
 			}
 			if (!cachedCameraDepthConfidenceTexture || cachedCameraDepthConfidenceTexture.width != size.w || cachedCameraDepthConfidenceTexture.height != size.h)
@@ -2017,7 +2003,7 @@ internal static class OVRPlugin
 				}
 				else
 				{
-					//Debug.LogWarning("ovrp_GetTiledMultiResSupported return " + result);
+					Debug.LogWarning("ovrp_GetTiledMultiResSupported return " + result);
 					return false;
 				}
 			}
@@ -2038,7 +2024,7 @@ internal static class OVRPlugin
 				Result result = OVRP_1_21_0.ovrp_GetTiledMultiResLevel(out level);
 				if (result != Result.Success)
 				{
-					//Debug.LogWarning("ovrp_GetTiledMultiResLevel return " + result);
+					Debug.LogWarning("ovrp_GetTiledMultiResLevel return " + result);
 				}
 				return level;
 			}
@@ -2054,7 +2040,7 @@ internal static class OVRPlugin
 				Result result = OVRP_1_21_0.ovrp_SetTiledMultiResLevel(value);
 				if (result != Result.Success)
 				{
-					//Debug.LogWarning("ovrp_SetTiledMultiResLevel return " + result);
+					Debug.LogWarning("ovrp_SetTiledMultiResLevel return " + result);
 				}
 			}
 		}
@@ -2074,7 +2060,7 @@ internal static class OVRPlugin
 				}
 				else
 				{
-					//Debug.LogWarning("ovrp_GetGPUUtilSupported return " + result);
+					Debug.LogWarning("ovrp_GetGPUUtilSupported return " + result);
 					return false;
 				}
 			}
@@ -2099,7 +2085,7 @@ internal static class OVRPlugin
 				}
 				else
 				{
-					//Debug.LogWarning("ovrp_GetGPUUtilLevel return " + result);
+					Debug.LogWarning("ovrp_GetGPUUtilLevel return " + result);
 					return 0.0f;
 				}
 			}
@@ -2737,8 +2723,8 @@ internal static class OVRPlugin
 		public static extern Result ovrp_SetSystemDisplayFrequency(float requestedFrequency);
 	}
 
-	private static class OVRP_1_24_0
+	private static class OVRP_1_23_0
 	{
-		public static readonly System.Version version = new System.Version(1, 24, 0);
+		public static readonly System.Version version = new System.Version(1, 23, 0);
 	}
 }
