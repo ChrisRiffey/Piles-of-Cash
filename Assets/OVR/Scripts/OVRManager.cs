@@ -930,6 +930,9 @@ public class OVRManager : MonoBehaviour
 		}
 
 #if UNITY_ANDROID && !UNITY_EDITOR
+		// We want to set up our touchpad messaging system
+		OVRTouchpad.Create();
+
 		// Turn off chromatic aberration by default to save texture bandwidth.
 		chromatic = false;
 #endif

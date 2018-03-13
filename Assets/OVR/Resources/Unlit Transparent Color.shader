@@ -8,7 +8,7 @@ SubShader {
     LOD 100
     Fog {Mode Off}
 
-    ZTest Always
+    ZWrite On
     Blend SrcAlpha OneMinusSrcAlpha
     Color [_Color]
 
