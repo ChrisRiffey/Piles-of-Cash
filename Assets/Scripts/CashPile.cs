@@ -36,7 +36,7 @@ namespace CashSpawning
         {
             dollarValueSpawned = 0;
 
-            BoxCollider bc = CASHSTACKWORLDREF.GetComponent<BoxCollider>();
+            BoxCollider bc = CASHSTACKWORLDREF.GetComponentInChildren<BoxCollider>();
 
             //worldspace space dimensions
             if(stackDimensions == Vector3.zero)
