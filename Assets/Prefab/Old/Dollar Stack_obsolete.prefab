@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4671139316384886}
   m_Layer: 0
-  m_Name: Dollar Stack
+  m_Name: Dollar Stack_obsolete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
