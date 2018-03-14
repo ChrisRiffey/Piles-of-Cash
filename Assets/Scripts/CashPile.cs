@@ -86,8 +86,13 @@ namespace CashSpawning
                         stacks[layerNum][c][i] = Instantiate(cashStackPrefab, spawnPosition, Quaternion.identity, transform);
                         dollarValueSpawned += stackUSDValue;
 
-                        if (dollarValueSpawned >= MAXTOTALVALUE || dollarValueSpawned >= dollarValue)
+                        if (dollarValueSpawned >= MAXTOTALVALUE || dollarValueSpawned >= dollarValue) //finish spawning
+                        {
+                            combineChildMeshes();
+                            destroyAllChildren(); 
                             yield break;
+                        }
+
 
                         if (spawnInterval != 0f)
                             yield return spawnIntervalWFS;
@@ -101,6 +106,8 @@ namespace CashSpawning
                 layerNum++;
                 spawnPosition = new Vector3(transform.position.x, spawnPosition.y + stackDimensions.y, transform.position.z);
             }
+
+ 
         }
 
 
@@ -126,6 +133,33 @@ namespace CashSpawning
                         else
                             DestroyImmediate(objArray[r][c]);
                 }
+            }
+        }
+
+        void combineChildMeshes()
+        {
+            MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+            CombineInstance[] combine = new CombineInstance[meshFilters.Length - 1];
+            int i = 1;
+            while (i < meshFilters.Length)
+            {
+                combine[i - 1].mesh = meshFilters[i].sharedMesh;
+                Matrix4x4 myTransform = transform.worldToLocalMatrix;
+                combine[i - 1].transform = myTransform * meshFilters[i].transform.localToWorldMatrix;
+                meshFilters[i].gameObject.SetActive(false); 
+                i++;
+            }
+            transform.GetComponent<MeshFilter>().mesh = new Mesh();
+            transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
+  
+            transform.gameObject.SetActive(true);
+        }
+
+        void destroyAllChildren()
+        {
+            foreach (Transform child in transform)
+            {
+                GameObject.Destroy(child.gameObject);
             }
         }
     }
