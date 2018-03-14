@@ -38,7 +38,7 @@ public class CashSpawner : MonoBehaviour {
 
     IEnumerator stackSpawningCR(int[] stacksToSpawn, Vector3 startPosition)
     {
-        Vector3 direction = Vector3.back;
+        Vector3 direction = -transform.right;
         GameObject profileParent = new GameObject(money + "  profile");  
         for(int prefabIndex = 0; prefabIndex < stacksToSpawn.Length; prefabIndex++)
         {
