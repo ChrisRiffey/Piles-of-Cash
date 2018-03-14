@@ -51,10 +51,11 @@ namespace CashSpawning
 
         }
 
-        public float spawnStack(int amountToSpawn)
+        public float spawnStack(int amountToSpawn, bool animate)
         {
             dollarValue = amountToSpawn; 
             StartCoroutine(spawnStackCR());
+            spawnInterval = animate ? spawnInterval : 0; 
             return (dollarValue/100) * spawnInterval;  
         }
 

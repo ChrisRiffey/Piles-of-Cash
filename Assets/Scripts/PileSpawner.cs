@@ -8,10 +8,13 @@ namespace CashSpawning
     public class PileSpawner : MonoBehaviour
     {
 
-        [Tooltip("Point the x-axis (red arrow) to the direction of spawning")]
+
         public GameObject cashPilePrefab, singleMeshCashPilePrefab;
         public int moneyToSpawn;
-        public float spaceBetweenSpawns, spawnInterval;
+        public float spawnInterval;
+
+        [Tooltip("Indexes refer to the children in SpawnLocations")]
+        public int[] spawnOrder;
         public UnityEvent OnSpawningCompleted;
 
 
@@ -26,8 +29,8 @@ namespace CashSpawning
         }
         public void startSpawning()
         {
-            pilesAmt = (int)(moneyToSpawn / CashPile.MAXTOTALVALUE);  
-            SPPilesAmt = (int)(moneyToSpawn % CashPile.MAXTOTALVALUE);
+            pilesAmt = (int)(moneyToSpawn % CashPile.MAXTOTALVALUE);  
+            SPPilesAmt = (int)(moneyToSpawn / CashPile.MAXTOTALVALUE);
 
             spawnPos = transform.position;
 
@@ -37,18 +40,23 @@ namespace CashSpawning
 
         void spawnStack()
         {
+            Vector3 spawnPos = transform.GetChild(0).GetChild(spawnOrder[spawnsMade]).position;
             if (spawnsMade >= SPPilesAmt)
             {
-                CancelInvoke("spawnSingleMeshCP");
+                CancelInvoke("spawnStack");
                 if (pilesAmt > 0)
                 {
-                    CashPile cp = Instantiate(singleMeshCashPilePrefab, spawnPos, Quaternion.identity, transform).GetComponent<CashPile>();
-                    Invoke("triggerOnSpawnComplete", cp.spawnStack());
+                    CashPile cp = Instantiate(cashPilePrefab, spawnPos, Quaternion.identity, transform).GetComponent<CashPile>();
+                    if (SPPilesAmt > 0)
+                        Invoke("triggerOnSpawnComplete", cp.spawnStack(pilesAmt, false));
+                    else
+                        Invoke("triggerOnSpawnComplete", cp.spawnStack(pilesAmt, true));
+                    return;
                 }
             }
 
+
             Instantiate(singleMeshCashPilePrefab, spawnPos, Quaternion.identity, transform);
-            spawnPos += transform.right * spaceBetweenSpawns;
 
             spawnsMade++;
         }
