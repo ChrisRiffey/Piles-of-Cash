@@ -82,7 +82,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4802849673835600}
-  - component: {fileID: 114523636011146402}
   m_Layer: 0
   m_Name: PileGenEditorTOOL
   m_TagString: Untagged
@@ -242,21 +241,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6.1096835, y: 0.4537256, z: 2.5735075}
   m_Center: {x: 0.0096394345, y: 0.2143248, z: 0.008653894}
---- !u!114 &114523636011146402
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1601541494186134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13eeb5d1ee186d04d8f8c7d893a3d2fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  money: 500000
-  PileParent: {fileID: 0}
-  CashPilePrefab: {fileID: 1802142288420504, guid: 98338a11daf8aa24e96bbd48a2c2b5a3,
-    type: 2}
 --- !u!114 &114855408736607122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -274,6 +258,5 @@ MonoBehaviour:
   dollarValue: 0
   rows: 10
   columns: 10
-  maxPileValue: 400
   stackUSDValue: 100
   spawnInterval: 0

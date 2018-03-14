@@ -13,12 +13,13 @@ namespace CashSpawning
 
         float dollarValueSpawned;
 
-        public int rows, columns, maxPileValue;
+        public int rows, columns; 
 
         public float stackUSDValue;
 
         public float spawnInterval = 0;
-        
+
+        public static float MAXTOTALVALUE = 1470000;
 
         static Vector3 stackDimensions;
         static GameObject CASHSTACKWORLDREF;  
@@ -33,28 +34,35 @@ namespace CashSpawning
 
             if (spawnIntervalWFS == null)
                 spawnIntervalWFS = new WaitForSeconds(spawnInterval);
+
+            if (stackDimensions == Vector3.zero)
+            {
+                BoxCollider bc = CASHSTACKWORLDREF.GetComponentInChildren<BoxCollider>();
+                stackDimensions = new Vector3(bc.bounds.size.x, bc.bounds.size.y, bc.bounds.size.z);
+            }
+
+            dollarValueSpawned = 0;
+
+
         }
         // Use this for initialization
         void Start()
         {
-            dollarValueSpawned = 0;
 
-            BoxCollider bc = CASHSTACKWORLDREF.GetComponentInChildren<BoxCollider>();
-
-            //worldspace space dimensions
-            if(stackDimensions == Vector3.zero)
-            {
-                stackDimensions = new Vector3(bc.bounds.size.x, bc.bounds.size.y, bc.bounds.size.z);
-            }
-
-
-            if (dollarValue != 0 && dollarValueSpawned == 0)
-                spawnStack(); 
         }
 
-        public void spawnStack()
+        public float spawnStack(int amountToSpawn, bool animate)
         {
-            StartCoroutine(spawnStackCR()); 
+            dollarValue = amountToSpawn; 
+            StartCoroutine(spawnStackCR());
+            spawnInterval = animate ? spawnInterval : 0; 
+            return (dollarValue/100) * spawnInterval;  
+        }
+
+        public float spawnStack()
+        {
+            StartCoroutine(spawnStackCR());
+            return (dollarValue / 100) * spawnInterval;
         }
 
         IEnumerator spawnStackCR()
@@ -69,11 +77,7 @@ namespace CashSpawning
 
             Vector3 spawnPosition = transform.position;
             int layerNum = 0;
-            //
-
-
-            //
-            while (dollarValueSpawned < maxPileValue)
+            while (dollarValueSpawned < MAXTOTALVALUE)
             {
                 for (int i = 0; i < columns; i++)
                 {
@@ -82,8 +86,13 @@ namespace CashSpawning
                         stacks[layerNum][c][i] = Instantiate(cashStackPrefab, spawnPosition, Quaternion.identity, transform);
                         dollarValueSpawned += stackUSDValue;
 
-                        if (dollarValueSpawned >= maxPileValue || dollarValueSpawned >= dollarValue)
+                        if (dollarValueSpawned >= MAXTOTALVALUE || dollarValueSpawned >= dollarValue) //finish spawning
+                        {
+                            combineChildMeshes();
+                            destroyAllChildren(); 
                             yield break;
+                        }
+
 
                         if (spawnInterval != 0f)
                             yield return spawnIntervalWFS;
@@ -97,8 +106,12 @@ namespace CashSpawning
                 layerNum++;
                 spawnPosition = new Vector3(transform.position.x, spawnPosition.y + stackDimensions.y, transform.position.z);
             }
+
+ 
         }
 
+
+        //helper methods
         T[][] initialize2DArray<T>(int r, int c)
         {
             T[][] twoDArray = new T[r][];
@@ -110,7 +123,6 @@ namespace CashSpawning
 
         void destroyInnerItems(GameObject[][] objArray)
         {
-            Debug.Log("I was called");
             for (int r = 0; r < objArray.Length; r++)
             {
                 for (int c = 0; c < objArray[r].Length; c++)
@@ -120,8 +132,34 @@ namespace CashSpawning
                             Destroy(objArray[r][c]); 
                         else
                             DestroyImmediate(objArray[r][c]);
-
                 }
+            }
+        }
+
+        void combineChildMeshes()
+        {
+            MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+            CombineInstance[] combine = new CombineInstance[meshFilters.Length - 1];
+            int i = 1;
+            while (i < meshFilters.Length)
+            {
+                combine[i - 1].mesh = meshFilters[i].sharedMesh;
+                Matrix4x4 myTransform = transform.worldToLocalMatrix;
+                combine[i - 1].transform = myTransform * meshFilters[i].transform.localToWorldMatrix;
+                meshFilters[i].gameObject.SetActive(false); 
+                i++;
+            }
+            transform.GetComponent<MeshFilter>().mesh = new Mesh();
+            transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
+  
+            transform.gameObject.SetActive(true);
+        }
+
+        void destroyAllChildren()
+        {
+            foreach (Transform child in transform)
+            {
+                GameObject.Destroy(child.gameObject);
             }
         }
     }
