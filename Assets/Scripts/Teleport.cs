@@ -2,58 +2,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Teleport : MonoBehaviour {
+public class Teleport : MonoBehaviour 
+	{
 
-	//public GameObject warpPoint;
-	Vector3 warpTarget;
+	// initialize variables
+	private Vector3 warpTarget;
 	private GameObject warpMarker;
 	private Transform startMarker;
 	private Transform endMarker;
-	public float speed = 1.0F;
+	private float speed = 1.0F;
 	private float startTime;
 	private float journeyLength;
 	private bool warping = false;
 	private float distCovered;
-
-	
-	// Update is called once per frame
-	void Update () {
-		if(Input.GetButtonDown("Fire1"))
+		
+	// do every frame
+	void Update () 
 		{
-			Ray ray;
-			RaycastHit hit;
-			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if (Physics.Raycast(ray, out hit, 100.0f))
+		if(Input.GetButtonDown("Fire1")) // if fire button pressed
 			{
-				if ((hit.collider.tag == "floor") && (warping == false))
+			Ray ray; //initialize ray
+			RaycastHit hit; //initialize hit 
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition); // raycast from screen point
+			if (Physics.Raycast(ray, out hit, 100.0f)) // if raycast is hitting something
+				{
+				if ((hit.collider.tag == "floor") && (warping == false)) // raycast is hitting a floor object
 					{
-					startTime = Time.time;
-					warpTarget = hit.point + new Vector3 (0, 2f, 0);
-					//warpMarker = Instantiate (warpPoint, hit.point + new Vector3(0,2f,0), Quaternion.identity); Debug.Log("warpPoint is at " + warpPoint.transform.position.ToString());
-					warping = true; Debug.Log("Warping is true");
-					startMarker = gameObject.transform;
-					//endMarker = warpMarker.transform;
-					journeyLength = Vector3.Distance (startMarker.position, warpTarget);
+					startTime = Time.time; //record the time
+					warpTarget = hit.point + new Vector3 (0, 2f, 0); // specify the warp target with offset for height
+					warping = true; Debug.Log("Warping is true"); // set warping
+					startMarker = gameObject.transform; // record start point
+					journeyLength = Vector3.Distance (startMarker.position, warpTarget); // determine length of warp
 					} 
+				}
 			}
+		if (warping == true)  // if warping
+			{	
+			distCovered += Time.deltaTime * speed; // record distance covered
+			float fracJourney = distCovered / journeyLength; // set current progress
+			//Debug.Log("distCovered:"+distCovered+" - journeyLength:"+journeyLength+" - fracJourney:"+fracJourney+" - time:"+Time.time+" - startTime:"+startTime);
+			transform.position = Vector3.Lerp (startMarker.position, warpTarget, fracJourney); // move to current progress
+			if (Vector3.Distance(transform.position, warpTarget) <= 0.1f) // if distance to target is close enough
+				{ 
+				warping = false; Debug.Log("Warping is false"); // set not warping
+				distCovered = 0.0f; // reset distance covered
+				warpTarget = Vector3.zero; // reset warp target
+				}
+			}	
 		}
-
-		if (warping == true) 
-		{	
-			
-			//float distCovered = (Time.time - startTime) * speed;
-			distCovered += Time.deltaTime * speed;
-			//float distCovered = speed * Time.deltaTime;
-			float fracJourney = distCovered / journeyLength; //Debug.Log("distCovered:"+distCovered+" - journeyLength:"+journeyLength+" - fracJourney:"+fracJourney+" - time:"+Time.time+" - startTime:"+startTime);
-			transform.position = Vector3.Lerp (startMarker.position, warpTarget, fracJourney);
-			if (Vector3.Distance(transform.position, warpTarget) <= 0.1f) 
-			{ 
-				warping = false; Debug.Log("Warping is false");
-				//Destroy (warpPoint);
-				distCovered = 0.0f;
-				warpTarget = Vector3.zero;
-			}
-		}	
 	}
-
-}
