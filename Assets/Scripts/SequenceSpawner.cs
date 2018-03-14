@@ -5,10 +5,8 @@ using UnityEngine.Events;
 
 namespace CashSpawning
 {
-    public class PileSpawner : MonoBehaviour
+    public class SequenceSpawner : MonoBehaviour
     {
-
-
         public GameObject cashPilePrefab, singleMeshCashPilePrefab;
         public int moneyToSpawn;
         public float spawnInterval;
@@ -29,8 +27,9 @@ namespace CashSpawning
         }
         public void startSpawning()
         {
-            pilesAmt = (int)(moneyToSpawn % CashPile.MAXTOTALVALUE);  
-            SPPilesAmt = (int)(moneyToSpawn / CashPile.MAXTOTALVALUE);
+            float maxPileValue = cashPilePrefab.GetComponent<CashPile>().maxValue;  
+            pilesAmt = (int)(moneyToSpawn % maxPileValue);  
+            SPPilesAmt = (int)(moneyToSpawn / maxPileValue);
 
             spawnPos = transform.position;
 

@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class Stack : MonoBehaviour {
-    public 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public float value;
+    public Vector3 worldDimensions;
+
+    private void Awake()
+    {
+        if(worldDimensions == Vector3.zero)
+        {
+            BoxCollider bc = GetComponentInChildren<BoxCollider>();
+            worldDimensions = new Vector3(bc.bounds.size.x, bc.bounds.size.y, bc.bounds.size.z);
+        }
+    }
 }
