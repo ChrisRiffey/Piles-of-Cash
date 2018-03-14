@@ -6,68 +6,58 @@ namespace CashSpawning
 {
     public class CashPile : MonoBehaviour
     {
-        public GameObject cashStackWorldReference;
-        public GameObject cashStackPrefab;  
+        public GameObject stackPrefab;  
 
-        public float dollarValue;
-
-        float dollarValueSpawned;
+        public float value;
 
         public int rows, columns; 
 
-        public float stackUSDValue;
-
         public float spawnInterval = 0;
 
-        public static float MAXTOTALVALUE = 1470000;
+        public float maxFeetHeight = 6;
 
-        static Vector3 stackDimensions;
-        static GameObject CASHSTACKWORLDREF;  
+        float valueSpawned;
+
+        [Header("MAX VALUE IS READ ONLY")]
+        public float maxValue; 
 
         static WaitForSeconds spawnIntervalWFS;
 
         private void Awake()
         { 
-            if (CASHSTACKWORLDREF == null)
-                CASHSTACKWORLDREF = cashStackWorldReference; 
-
-
             if (spawnIntervalWFS == null)
                 spawnIntervalWFS = new WaitForSeconds(spawnInterval);
-
-            if (stackDimensions == Vector3.zero)
-            {
-                BoxCollider bc = CASHSTACKWORLDREF.GetComponentInChildren<BoxCollider>();
-                stackDimensions = new Vector3(bc.bounds.size.x, bc.bounds.size.y, bc.bounds.size.z);
-            }
-
-            dollarValueSpawned = 0;
-
-
         }
+
         // Use this for initialization
         void Start()
         {
-
+            spawnStack();   
         }
 
+        //returns expected completion time
         public float spawnStack(int amountToSpawn, bool animate)
         {
-            dollarValue = amountToSpawn; 
+            value = amountToSpawn; 
             StartCoroutine(spawnStackCR());
             spawnInterval = animate ? spawnInterval : 0; 
-            return (dollarValue/100) * spawnInterval;  
+            return (value/100) * spawnInterval;  
         }
 
         public float spawnStack()
         {
+            if(value > maxValue)
+            {
+                value = maxValue;
+                Debug.Log("!WARNING! Value exceed maxValue"); 
+            }
+            
             StartCoroutine(spawnStackCR());
-            return (dollarValue / 100) * spawnInterval;
+            return (value / 100) * spawnInterval;
         }
 
         IEnumerator spawnStackCR()
         {
-
             //references to hollow out occuluded stacks
             GameObject[][][] stacks = new GameObject[180][][];
             for (int i = 0; i < 180; i++)
@@ -75,21 +65,25 @@ namespace CashSpawning
                 stacks[i] = initialize2DArray<GameObject>(rows, columns);
             }
 
+            Stack stackSettings = stackPrefab.GetComponent<Stack>();  
             Vector3 spawnPosition = transform.position;
             int layerNum = 0;
-            while (dollarValueSpawned < MAXTOTALVALUE)
+            while (valueSpawned < maxValue)
             {
                 for (int i = 0; i < columns; i++)
                 {
                     for (int c = 0; c < rows; c++)
                     {
-                        stacks[layerNum][c][i] = Instantiate(cashStackPrefab, spawnPosition, Quaternion.identity, transform);
-                        dollarValueSpawned += stackUSDValue;
+                        stacks[layerNum][c][i] = Instantiate(stackPrefab, spawnPosition, Quaternion.identity, transform);
+                        valueSpawned += stackSettings.value;
 
-                        if (dollarValueSpawned >= MAXTOTALVALUE || dollarValueSpawned >= dollarValue) //finish spawning
+                        if (valueSpawned >= maxValue || valueSpawned >= value) //finish spawning
                         {
-                            combineChildMeshes();
-                            destroyAllChildren(); 
+                            
+                            //yield return new WaitForEndOfFrame();   
+                            //combineChildMeshes();
+                            //destroyAllChildren(); 
+                           
                             yield break;
                         }
 
@@ -97,19 +91,24 @@ namespace CashSpawning
                         if (spawnInterval != 0f)
                             yield return spawnIntervalWFS;
 
-                        spawnPosition += Vector3.forward * stackDimensions.z;
+                        spawnPosition += Vector3.forward * stackSettings.worldDimensions.z;
                     }
-                    spawnPosition = new Vector3(spawnPosition.x + stackDimensions.x, spawnPosition.y, transform.position.z);
+                    spawnPosition = new Vector3(spawnPosition.x + stackSettings.worldDimensions.x, spawnPosition.y, transform.position.z);
                 }
                 if(layerNum > 0)
                     destroyInnerItems(stacks[layerNum - 1]);
                 layerNum++;
-                spawnPosition = new Vector3(transform.position.x, spawnPosition.y + stackDimensions.y, transform.position.z);
+                spawnPosition = new Vector3(transform.position.x, spawnPosition.y + stackSettings.worldDimensions.y, transform.position.z);
             }
 
- 
         }
 
+        public void updateMaxValue()
+        {
+            Stack stackSettings = stackPrefab.GetComponent<Stack>();
+            maxValue = (int)((rows * columns * stackSettings.value) * ((maxFeetHeight * 0.3048) / stackSettings.worldDimensions.y));
+            maxValue = (int)(maxValue / stackSettings.value) * stackSettings.value; 
+        }
 
         //helper methods
         T[][] initialize2DArray<T>(int r, int c)
@@ -136,6 +135,7 @@ namespace CashSpawning
             }
         }
 
+        ///bugged
         void combineChildMeshes()
         {
             MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();

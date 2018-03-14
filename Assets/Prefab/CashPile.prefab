@@ -101,4 +101,4 @@ MonoBehaviour:
   rows: 10
   columns: 10
   stackUSDValue: 100
-  spawnInterval: 0.01
+  spawnInterval: 0

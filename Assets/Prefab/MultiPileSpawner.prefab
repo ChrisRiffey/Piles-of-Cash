@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4098135692775502}
   - component: {fileID: 114943866689939400}
   m_Layer: 0
-  m_Name: Pileseed
+  m_Name: MultiPileSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
