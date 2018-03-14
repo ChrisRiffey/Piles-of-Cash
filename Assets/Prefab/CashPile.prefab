@@ -57,5 +57,6 @@ MonoBehaviour:
   dollarValue: 0
   rows: 10
   columns: 10
+  maxPileValue: 5000000
   stackUSDValue: 100
-  spawnInterval: 0.01
+  spawnInterval: 0
