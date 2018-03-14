@@ -52,6 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cashStackWorldReference: {fileID: 0}
+  cashStackPrefab: {fileID: 1497861119641358, guid: e29bc3152c18a3e47a63ae30aea0bf74,
+    type: 2}
   dollarValue: 0
   rows: 10
   columns: 10

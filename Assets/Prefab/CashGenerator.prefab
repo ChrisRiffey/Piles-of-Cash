@@ -299,7 +299,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1457550682640178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.849123, y: 7.212689, z: -7.6878905}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4499309209292530}
@@ -643,7 +643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13eeb5d1ee186d04d8f8c7d893a3d2fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 1000
+  money: 100000
   PileParent: {fileID: 0}
   CashPilePrefab: {fileID: 1802142288420504, guid: 98338a11daf8aa24e96bbd48a2c2b5a3,
     type: 2}
@@ -659,6 +659,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cashStackWorldReference: {fileID: 1145041291805132}
+  cashStackPrefab: {fileID: 1497861119641358, guid: e29bc3152c18a3e47a63ae30aea0bf74,
+    type: 2}
   dollarValue: 0
   rows: 10
   columns: 10
