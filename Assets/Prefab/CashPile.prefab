@@ -52,11 +52,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cashStackWorldReference: {fileID: 0}
-  cashStackPrefab: {fileID: 1497861119641358, guid: e29bc3152c18a3e47a63ae30aea0bf74,
+  cashStackPrefab: {fileID: 1907635249745448, guid: 64a7822a8dc487b4baa911cd71662746,
     type: 2}
   dollarValue: 0
   rows: 10
   columns: 10
-  maxPileValue: 500000
   stackUSDValue: 100
-  spawnInterval: 0
+  spawnInterval: 0.01
