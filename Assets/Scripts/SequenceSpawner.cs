@@ -25,6 +25,7 @@ namespace CashSpawning
         {
             startSpawning(); 
         }
+
         public void startSpawning()
         {
             float maxPileValue = cashPilePrefab.GetComponent<CashPile>().maxValue;  

@@ -16,4 +16,6 @@ public class CashPileEditor : Editor
             myScript.updateMaxValue();
         }
     }
+
+
 }

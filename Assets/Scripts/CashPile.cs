@@ -135,6 +135,7 @@ namespace CashSpawning
             }
         }
 
+        ///bugged
         void combineChildMeshes()
         {
             MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
