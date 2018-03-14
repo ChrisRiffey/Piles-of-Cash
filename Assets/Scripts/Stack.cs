@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
 public class Stack : MonoBehaviour {
     public float value;
     public Vector3 worldDimensions;
