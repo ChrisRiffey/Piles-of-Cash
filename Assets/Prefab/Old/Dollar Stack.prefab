@@ -55,7 +55,6 @@ GameObject:
   - component: {fileID: 4159347861296714}
   - component: {fileID: 33172189775367232}
   - component: {fileID: 23853892408790988}
-  - component: {fileID: 65535804197415010}
   m_Layer: 0
   m_Name: Boss_Extrude1
   m_TagString: Untagged
@@ -202,9 +201,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1497861119641358}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.9739184, y: 4.1742, z: 3.8169174}
-  m_LocalScale: {x: 0.025, y: 0.025, z: 0.025}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.1893, y: 0.9651, z: 0.0494}
+  m_LocalScale: {x: 0.025009787, y: 0.025009794, z: 0.025009794}
   m_Children:
   - {fileID: 4159347861296714}
   - {fileID: 4419182438370000}
@@ -214,7 +213,7 @@ Transform:
   - {fileID: 4472725731984632}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4675046082254084
 Transform:
   m_ObjectHideFlags: 1
@@ -502,15 +501,3 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65535804197415010
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1472873104606574}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 6.14, y: 0.43, z: 2.61}
-  m_Center: {x: 0.0000076293945, y: 0.21498093, z: 0}
