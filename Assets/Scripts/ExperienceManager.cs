@@ -7,12 +7,14 @@ public class ExperienceManager : MonoBehaviour
 
 	public bool waitForClick = false;
 	public int chapter = 0;
+	public AudioSource audio;
 	public AudioClip clip1;
+	private AudioClip currentClip;
 
 	// Use this for initialization
 	void Start ()
 		{
-		
+		waitForClick = true;
 		}
 	
 	// every frame
@@ -20,17 +22,16 @@ public class ExperienceManager : MonoBehaviour
 		{
 		if( (Input.GetButtonDown("Fire1")) && (waitForClick = true) )// if fire button pressed and waitForClick is true
 			{
+			Debug.Log ("clicked");
 			chapter += 1; // increment to next chapter
 			//runSection (chapter); // run next chapter
-			waitForClick = false; // disable wait
+			//waitForClick = false; // disable wait
+			//playAudio();
+			//currentClip = "clip"+chapter.ToString();
+			Debug.Log ("currentClip is ");
+			StartCoroutine("playAudio");
 			}
 		}
-
-	IEnumerator chapter1()
-		{
-		playAudio
-		}
-
 
 
 	// call to advance to next 
@@ -39,55 +40,59 @@ public class ExperienceManager : MonoBehaviour
 		switch (section)
 			{
 		case 1:
-			playAudio (1);
-			spawnCash (section)
-			waitForClick = true;
+			//playAudio (1)
+			//spawnCash (section)
+			//waitForClick = true
 			break;
 		case 2:
 
 			break;
-		case 2:
+		case 3:
 
 			break;
-		case 2:
+		case 4:
 
 			break;
-		case 2:
+		case 5:
 
 			break;
-		case 2:
+		case 6:
 
 			break;
-		case 2:
+		case 7:
 
 			break;
-		case 2:
+		case 8:
 
 			break;
-		case 2:
+		case 9:
 
 			break;
-		case 2:
+		case 10:
 
 			break;
-		case 2:
+		case 11:
 
 			break;
-		case 2:
+		case 12:
 
 			break;
-		case 2:
+		case 13:
 
 			break;
 			}
 		}
 	//play specified audio file 
-	void playAudio(int file)
+	IEnumerator playAudio()
 		{
-		
+		Debug.Log ("Audio playing");
+
+		audio.clip = currentClip;
+		audio.Play(); 
+		yield return new WaitForSeconds(audio.clip.length);
 		}
-	void spawnCash
+	void spawnCash()
 		{
 	
 		}
-}
+	}
