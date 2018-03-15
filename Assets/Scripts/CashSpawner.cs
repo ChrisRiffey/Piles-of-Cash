@@ -24,7 +24,7 @@ public class CashSpawner : MonoBehaviour {
     }
     private void Start()
     {
-        spawnMoney(156500, GameObject.Find("cashSpawn").transform);  
+        spawnMoney(156500, GameObject.Find("spawnloc").transform);  
     }
 
     public void spawnMoney(float amount, Transform startTransform)
