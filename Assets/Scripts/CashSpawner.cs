@@ -24,25 +24,27 @@ public class CashSpawner : MonoBehaviour {
     }
     private void Start()
     {
-        spawnMoney(56500, GameObject.Find("TestProfile").transform);  
+        spawnMoney(156500, GameObject.Find("cashSpawn").transform);  
     }
 
-    public void spawnMoney(float amount, Transform startPosition)
+    public void spawnMoney(float amount, Transform startTransform)
     {
         // 0 - 1.5 mil stack, 1 - 10k, 2 - 5k, 3 - 1k, 4 - 100)
         money = (int)amount; 
         int[] stacksToSpawn = parseNumOfStacksToSpawn(amount);
-        StartCoroutine(stackSpawningCR(stacksToSpawn, startPosition.position)); 
+        StartCoroutine(stackSpawningCR(stacksToSpawn, startTransform)); 
      
     }
 
-    IEnumerator stackSpawningCR(int[] stacksToSpawn, Vector3 startPosition)
+    IEnumerator stackSpawningCR(int[] stacksToSpawn, Transform startTransform)
     {
-        Vector3 direction = -transform.right;
+        Vector3 forward = startTransform.right;
+        Vector3 sideways = startTransform.forward; 
+
         GameObject profileParent = new GameObject(money + "  profile");  
         for(int prefabIndex = 0; prefabIndex < stacksToSpawn.Length; prefabIndex++)
         {
-            Vector3 spawnPosition = startPosition;
+            Vector3 spawnPosition = startTransform.position;
 
             GameObject[][] stacks = initialize2DArray<GameObject>(10, 10);
             GameObject stackParent = new GameObject("stack" + prefabIndex);
@@ -68,15 +70,14 @@ public class CashSpawner : MonoBehaviour {
                     if (stackSpawnInterval != 0f)
                         yield return stackSpawnIntervalWFS;
 
-                    spawnPosition += Vector3.right * (stackSettings.worldDimensions.x + stackSettings.worldDimensions.x / 4);
+                    spawnPosition += sideways * (stackSettings.worldDimensions.x + stackSettings.worldDimensions.x / 4);
                 }
 
-
-                spawnPosition = new Vector3(startPosition.x, startPosition.y, spawnPosition.z - stackSettings.worldDimensions.z);
+                spawnPosition = startTransform.position + forward * (row * stackSettings.worldDimensions.z);  
             }
 
             if(stacksToSpawn[prefabIndex] != 0)
-                startPosition += direction * distanceBetweenPiles;  
+                startTransform.position += forward * distanceBetweenPiles;  
         }
         OnSpawnComplete.Invoke();  
     }

@@ -81,8 +81,8 @@ namespace CashSpawning
                         {
                             
                             //yield return new WaitForEndOfFrame();   
-                            //combineChildMeshes();
-                            //destroyAllChildren(); 
+                            combineChildMeshes();
+                            destroyAllChildren(); 
                            
                             yield break;
                         }
