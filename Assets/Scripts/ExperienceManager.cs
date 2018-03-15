@@ -20,7 +20,7 @@ public class ExperienceManager : MonoBehaviour
 	// every frame
 	void Update () 
 		{
-		if( (Input.GetButtonDown("Fire1")) && (waitForClick = true) )// if fire button pressed and waitForClick is true
+		if( ((Input.GetButtonDown("Fire1") || Input.GetButtonDown("Button A") || Input.anyKeyDown) && (waitForClick = true) )// if fire button pressed and waitForClick is true
 			{
 			Debug.Log ("clicked");
 			chapter += 1; // increment to next chapter
